@@ -22,6 +22,8 @@ int read_flag(char *flag)
     }
 
     if (fgets(flag, FLAG_BUFFER_SIZE - 1, fp) == NULL) {
+        fprintf(stdout, "Failed read from flag file\n");
+        fflush(stdout);
         fclose(fp);
         return -1;
     }
@@ -32,7 +34,7 @@ int read_flag(char *flag)
     return 0;
 }
 
-int read_canary(uint32_t *canary) {
+int read_canary(uint64_t *canary) {
     FILE *fp = fopen("app/canary.txt", "r");
     if (fp == NULL) {
         return -1;
@@ -41,6 +43,9 @@ int read_canary(uint32_t *canary) {
     char canary_buffer[CANARY_BUFFER_SIZE];
 
     if (fgets(canary_buffer, sizeof(canary_buffer), fp) == NULL) {
+        fprintf(stdout, "Failed to open canary file\n");
+        fflush(stdout);
+
         fclose(fp);
         return -1;
     }
@@ -52,10 +57,14 @@ int read_canary(uint32_t *canary) {
     char *endptr = NULL;
     unsigned long long val = strtoull(canary_buffer, &endptr, 0);
     if (errno != 0) {
+        fprintf(stdout, "Failed to read canary from file\n");
+        fflush(stdout);
         return -1;
     }
     
     if (endptr == canary_buffer || *endptr != '\0') {
+        fprintf(stdout, "Invalid canary value\n");
+        fflush(stdout);
         return -1;
     }
 
@@ -65,14 +74,16 @@ int read_canary(uint32_t *canary) {
 
 void win() {
     fprintf(stdout, "You won! Here is your flag: %s\n", flag);
+    fflush(stdout);
+
     exit(0);
 }
 
 void vuln(void) 
 {
     uint64_t local_canary = secret_canary;
-    uint8_t run = 100;
-    uint8_t i = 0;
+    volatile uint8_t run = 100;
+    volatile uint8_t i = 0;
     char message[BUFFER_MAX_LEN];
 
     while (i < run) {
@@ -87,11 +98,17 @@ void vuln(void)
         i++;
     }
 
+    fprintf(stdout, "\nLook like you manage to break the loop.\n");
+    fflush(stdout);
+
     if (local_canary != secret_canary) {
-        fprintf(stdout, "Canary mismatch. Aborting.\n"); 
+        fprintf(stdout, "Unfortunately you still need to break canary :(\n"); 
         fflush(stdout);
         exit(1);
     }
+
+    fprintf(stdout, "Wow you also break canary!\n");
+    fflush(stdout);
 
     return;
 }
@@ -100,6 +117,9 @@ int main()
 {
     fprintf(stdout, "Welcome to the echo server\n");
     fflush(stdout);
+
+    read_canary(&secret_canary);
+    read_flag(flag);
 
     vuln();
 
