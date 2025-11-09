@@ -3,12 +3,14 @@
   - ID: unlock-canary
   - Type: custom
   - Category: Binary
-  - Points: 300
+  - Points: 200
   - Templatable: yes
 
 ## Description
 
 Canary has been added to the stack against overwrite to protect our echo server! Can you leak it?
+
+Download the source code `{{url_for("unlockcanary.c", "here")}}`, and executable `{{url_for("unlockcanary", "here")}}`.
 
 ## Details
 
@@ -18,13 +20,15 @@ Connect to the remote service with netcat:
 
 ## Hints
 
-- Do you know format string attack?
+- Do you know [format string attack](https://ctf101.org/binary-exploitation/what-is-a-format-string-vulnerability/)?
 - The first few parameters are stored in register on a 64-bit machine, what if we need more parameters?
-- ASLR, PIE and compiler stack protector are disabled.
+- ASLR, PIE are disabled, and canary is always the same (bad idea right?)
 
 ## Tags
 
 - medium
+- canary
+- format-string
 
 ## Solution Overview
 
