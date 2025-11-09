@@ -14,12 +14,14 @@ RUN mkdir /challenge && chmod 700 /challenge
 COPY setup-challenge.py /challenge/setup-challenge.py
 COPY unlockcanary.c /challenge/unlockcanary.c
 
-RUN gcc -std=c11 -O0 -fno-stack-protector -no-pie -o /challenge/unlockcanary /challenge/unlockcanary.c
+RUN gcc -std=c11 -g -O0 -fno-stack-protector -no-pie -o /challenge/unlockcanary /challenge/unlockcanary.c
 
 ARG FLAG="CTF{default_flag}"
 RUN chmod +x /challenge/setup-challenge.py
 RUN /challenge/setup-challenge.py
 
+RUN tar czvf /challenge/artifacts.tar.gz unlockcanary.c unlockcanary
+
 # PUBLISH 5555 AS nc
-EXPOSE 5555/udp
+EXPOSE 5555
 CMD ["/opt/start.sh"]

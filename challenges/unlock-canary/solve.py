@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+# This is the solver script for the Unlock Canary challenge. 
+# The script is for ARM64 architecture. 
 from pwn import *
 
 host = "127.0.0.1" 
-port = "54967"
+port = "61215"
 
 conn = remote(host, port)
 
