@@ -9,7 +9,6 @@ def main():
     rand_char = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(5))
 
     new_flag = "picoCTF{n3vEr_tRu2t_us3r_coNtr0Ii3d_f0rmaT_str1ng" + rand_char + "}"
-    #new_flag = "picoCTF{au7h3ntiCat1oN_by_Ip_1s_a_li3_}" #+ flag_rand + "}"
     
     with open("app/flag.txt", "w") as f:
         f.write(new_flag)
