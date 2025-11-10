@@ -3,3 +3,7 @@ artfiacts
 
 # ignore cmgr db. 
 cmgr.db
+
+# macOS cache
+.DS_Store
+*/.DS_Store
