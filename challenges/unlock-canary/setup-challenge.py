@@ -10,12 +10,12 @@ def main():
 
     new_flag = "picoCTF{n3vEr_tRu2t_us3r_coNtr0Ii3d_f0rmaT_str1ng" + rand_char + "}"
     
-    with open("app/flag.txt", "w") as f:
+    with open("/app/flag.txt", "w") as f:
         f.write(new_flag)
 
     # ========= Create canary =========
     canary_value = secrets.randbits(64)
-    with open("app/canary.txt", "w") as f:
+    with open("/app/canary.txt", "w") as f:
         f.write(str(canary_value))
 
     # ========= Create and update metadata.json =========

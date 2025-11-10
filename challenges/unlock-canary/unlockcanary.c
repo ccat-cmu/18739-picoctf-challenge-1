@@ -14,7 +14,7 @@ char flag[FLAG_BUFFER_SIZE];
 
 int read_flag(char *flag)
 {
-    FILE *fp = fopen("app/flag.txt", "r");
+    FILE *fp = fopen("/app/flag.txt", "r");
     if (fp == NULL) {
         fprintf(stdout, "Failed to open flag file\n");
         fflush(stdout);
@@ -35,7 +35,7 @@ int read_flag(char *flag)
 }
 
 int read_canary(uint64_t *canary) {
-    FILE *fp = fopen("app/canary.txt", "r");
+    FILE *fp = fopen("/app/canary.txt", "r");
     if (fp == NULL) {
         return -1;
     }
@@ -98,7 +98,7 @@ void vuln(void)
         i++;
     }
 
-    fprintf(stdout, "\nLook like you manage to break the loop.\n");
+    fprintf(stdout, "\nLook like you managed to break the loop.\n");
     fflush(stdout);
 
     if (local_canary != secret_canary) {
@@ -107,7 +107,7 @@ void vuln(void)
         exit(1);
     }
 
-    fprintf(stdout, "Wow you also break canary!\n");
+    fprintf(stdout, "Wow you also broke canary!\n");
     fflush(stdout);
 
     return;

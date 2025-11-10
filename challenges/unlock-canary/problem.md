@@ -1,10 +1,11 @@
 # Unlock Canary
-  - Namespace: 18739ctf
-  - ID: unlock-canary
-  - Type: custom
-  - Category: Binary
-  - Points: 200
-  - Templatable: yes
+
+- Namespace: 18739ctf
+- ID: unlock-canary
+- Type: custom
+- Category: Binary
+- Points: 200
+- Templatable: yes
 
 ## Description
 
@@ -27,8 +28,6 @@ Connect to the remote service with netcat:
 ## Tags
 
 - medium
-- canary
-- format-string
 
 ## Solution Overview
 
