@@ -1,6 +1,6 @@
 # Unlock Canary
 
-- Namespace: 18739ctf
+- Namespace: 18739
 - ID: unlock-canary
 - Type: custom
 - Category: Binary
